@@ -66,9 +66,9 @@ $hotels = [
     <!-- Framework bootstrap js  -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    
+
     <!-- Custom css  -->
-    
+
     <link rel="stylesheet" href="./css/style.css">
 
 </head>
@@ -82,7 +82,7 @@ $hotels = [
 
     <div class="container mt-5">
 
-        <ul class="hotels-list">
+        <ul class="hotels-list text-center">
 
             <?php foreach ($hotels as $hotel) { ?>
 
@@ -92,11 +92,47 @@ $hotels = [
                 <li> <?php echo $hotel["vote"] ?> </li>
                 <li> <?php echo $hotel["distance_to_center"] ?> </li>
                 <br>
-                <br>
 
             <?php } ?>
 
         </ul>
+
+    </div>
+
+    <div class="container mt-5">
+
+        <table class="table table-dark table-hover">
+
+            <thead>
+
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Parking</th>
+                    <th scope="col">Vote</th>
+                    <th scope="col">Distance to center</th>
+                </tr>
+
+            </thead>
+
+            <?php foreach ($hotels as $hotel) { ?>
+
+                <tbody>
+
+                    <tr>
+                        <th scope="row"> <?php echo $hotel["name"] ?></th>
+                        <td> <?php echo $hotel["description"] ?> </td>
+                        <td> <?php echo ($hotel["parking"] ? "Yes" : "No") ?> </td>
+                        <td> <?php echo $hotel["vote"] ?> </td>
+                        <td> <?php echo $hotel["distance_to_center"] ?> </td>
+                    </tr>
+
+                </tbody>
+
+            <?php } ?>
+
+        </table>
+
 
     </div>
 
