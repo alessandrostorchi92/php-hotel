@@ -1,6 +1,6 @@
-<!-- Imposto il codice php con il tag apposito -->
-
 <?php
+
+// HOTEL ARRAY 
 
 $hotels = [
 
@@ -35,7 +35,7 @@ $hotels = [
         'vote' => 5,
         'distance_to_center' => 5.5
     ],
-    
+
     [
         'name' => 'Hotel Milano',
         'description' => 'Hotel Milano Descrizione',
@@ -69,9 +69,26 @@ $hotels = [
 
 </head>
 
-</head>
 
 <body>
+
+    <div class="text-center">
+        <h1 class="mt-5  text-danger">HOTELS</h1>
+    </div>
+
+    <ul>
+
+        <?php foreach ($hotels as $hotel) { ?>
+
+            <li> <?php echo $hotels["name"] ?></li>
+            <li> <?php echo $hotels["description"] ?></li>
+            <li> <?php echo $hotels["parking"] ?></li>
+            <li> <?php echo $hotels["vote"] ?></li>
+            <li> <?php echo $hotels["distance_to_center"] ?></li>
+
+        <?php } ?>
+
+    </ul>
 
 </body>
 
