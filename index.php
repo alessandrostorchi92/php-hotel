@@ -63,9 +63,13 @@ $hotels = [
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
-    <!-- Custom css  -->
+    <!-- Framework bootstrap js  -->
 
-    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    
+    <!-- Custom css  -->
+    
+    <link rel="stylesheet" href="./css/style.css">
 
 </head>
 
@@ -76,19 +80,27 @@ $hotels = [
         <h1 class="mt-5  text-danger">HOTELS</h1>
     </div>
 
-    <ul>
+    <div class="container mt-5">
 
-        <?php foreach ($hotels as $hotel) { ?>
+        <ul class="hotels-list">
 
-            <li> <?php echo $hotels["name"] ?></li>
-            <li> <?php echo $hotels["description"] ?></li>
-            <li> <?php echo $hotels["parking"] ?></li>
-            <li> <?php echo $hotels["vote"] ?></li>
-            <li> <?php echo $hotels["distance_to_center"] ?></li>
+            <?php foreach ($hotels as $hotel) { ?>
 
-        <?php } ?>
+                <li> <?php echo $hotel["name"] ?> </li>
+                <li> <?php echo $hotel["description"] ?> </li>
+                <li> <?php echo ($hotel["parking"] ? "Yes" : "No") ?> </li>
+                <li> <?php echo $hotel["vote"] ?> </li>
+                <li> <?php echo $hotel["distance_to_center"] ?> </li>
+                <br>
+                <br>
 
-    </ul>
+            <?php } ?>
+
+        </ul>
+
+    </div>
+
+    <script src="js/main.js"></script>
 
 </body>
 
