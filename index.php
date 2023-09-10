@@ -46,6 +46,9 @@ $hotels = [
 
 ];
 
+//Creo un array vuoto per gli hotel filtrati
+$hotel_filtered = [];
+
 ?>
 
 <!doctype html>
@@ -76,67 +79,116 @@ $hotels = [
 
 <body>
 
-    <div class="text-center">
-        <h1 class="mt-5  text-danger">HOTELS</h1>
-    </div>
+        <div class="text-center">
+            <h1 class="mt-5  text-danger">HOTELS</h1>
+        </div>
 
-    <div class="container mt-5">
+        <div class="container mt-5">
 
-        <ul class="hotels-list text-center">
+            <ul class="hotels-list text-center">
 
-            <?php foreach ($hotels as $hotel) { ?>
+                <?php foreach ($hotels as $hotel) { ?>
 
-                <li> <?php echo $hotel["name"] ?> </li>
-                <li> <?php echo $hotel["description"] ?> </li>
-                <li> <?php echo ($hotel["parking"] ? "Yes" : "No") ?> </li>
-                <li> <?php echo $hotel["vote"] ?> </li>
-                <li> <?php echo $hotel["distance_to_center"] ?> </li>
-                <br>
+                    <li> <?php echo $hotel["name"] ?> </li>
+                    <li> <?php echo $hotel["description"] ?> </li>
+                    <li> <?php echo ($hotel["parking"] ? "Yes" : "No") ?> </li>
+                    <li> <?php echo $hotel["vote"] ?> </li>
+                    <li> <?php echo $hotel["distance_to_center"] ?> </li>
+                    <br>
 
-            <?php } ?>
+                <?php } ?>
 
-        </ul>
+            </ul>
 
-    </div>
 
-    <div class="container mt-5">
+            <div class="container mt-3">
 
-        <table class="table table-dark table-hover">
+        <form action="index.php" method="GET">
+            <div class="row align-items-center">
 
-            <thead>
+             <!-- Aggiungo un form, che tramite una richiesta GET permetta di filtrare gli hotel che hanno un parcheggio. -->
 
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Parking</th>
-                    <th scope="col">Vote</th>
-                    <th scope="col">Distance to center</th>
-                </tr>
+                <div class="col-6 text-center">
 
-            </thead>
+                    <label for="parking" class="mb-2 w-100">
+                        <h2>Parking</h2>
+                    </label>
 
-            <?php foreach ($hotels as $hotel) { ?>
+                    <select name="parking" class="form-select" id="parking">
+                        <option value="null" hidden></option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
 
-                <tbody>
+                </div>
+
+                <div class="col-6 text-center">
+
+                <!-- Aggiungo un altro form che permetta di filtrare gli hotel per voto  -->
+
+                    <label for="vote" class="mb-2 w-100">
+                        <h2>Vote</h2>
+                    </label>
+
+                    <select name="vote" class="form-select" id="vote" >
+                        <option value="null" hidden></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+
+                </div>
+            </div>
+
+
+            <div class="container-button text-center">
+                <button type="submit" name="submit" class="btn btn-danger mt-5">Filtra</button>
+            </div>
+            
+        </form>
+
+        </div>
+
+        <div class="container mt-5">
+
+            <table class="table table-dark table-hover">
+
+                <thead>
 
                     <tr>
-                        <th scope="row"> <?php echo $hotel["name"] ?></th>
-                        <td> <?php echo $hotel["description"] ?> </td>
-                        <td> <?php echo ($hotel["parking"] ? "Yes" : "No") ?> </td>
-                        <td> <?php echo $hotel["vote"] ?> </td>
-                        <td> <?php echo $hotel["distance_to_center"] ?> </td>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Parking</th>
+                        <th scope="col">Vote</th>
+                        <th scope="col">Distance to center</th>
                     </tr>
 
-                </tbody>
+                </thead>
 
-            <?php } ?>
+                <?php foreach ($hotels as $hotel) { ?>
 
-        </table>
+                    <tbody>
+
+                        <tr>
+                            <th scope="row"> <?php echo $hotel["name"] ?></th>
+                            <td> <?php echo $hotel["description"] ?> </td>
+                            <td> <?php echo ($hotel["parking"] ? "Yes" : "No") ?> </td>
+                            <td> <?php echo $hotel["vote"] ?> </td>
+                            <td> <?php echo $hotel["distance_to_center"] ?> </td>
+                        </tr>
+
+                    </tbody>
+
+                <?php } ?>
+
+            </table>
 
 
-    </div>
+        </div>
 
-    <script src="js/main.js"></script>
+        <script src="js/main.js"></script>
 
 </body>
 
