@@ -46,8 +46,45 @@ $hotels = [
 
 ];
 
-//Creo un array vuoto per gli hotel filtrati
-$hotel_filtered = [];
+// Creo una variabile per ciclare dinamicamente la lista delle chiavi dell'array.
+$column_names = array_keys($hotels[0]);
+
+//Creo un array vuoto per gli hotel filtrati.
+$filtered_hotels = [];
+
+$filter_vote = isset($_GET['vote']) && trim($_GET['vote']) !== "" ? intval($_GET['vote']) : null;
+$filter_parking = isset($_GET['parking']) && trim($_GET['parking']) !== "" ? $_GET['parking'] === 'true' : null;
+
+// Mi assicuro che i valori di queste due variabili siano null 
+
+// var_dump($filter_vote);
+// var_dump($filter_parking);
+
+// L'operazione dei filtri la faccio a monte per semplificare e rendere leggibile il codice.
+// Se non ci sono filtri, inserisco tutti hotel nell'array filtrato.
+
+if ($filter_vote === null && $filter_parking === null) {
+    $filtered_hotels = $hotels;
+} else {
+    // Se ci sono filtri, invece dobbiamo gestirne i casi.
+    foreach ($hotels as $hotel) {
+        $add_filter = true;
+
+        // Devo decidere quali hotels devo pushare dentro $filtered_hotels = [] 
+        if (isset($filter_vote) && isset($filter_parking)) {
+            $add_filter = ($hotel['vote'] >= $filter_vote && $hotel['parking'] == $filter_parking);
+        } elseif (isset($filter_vote)) {
+            $add_filter = ($hotel['vote'] >= $filter_vote);
+        } else if (isset($filter_parking)) {
+            $add_filter = ($hotel['parking'] == $filter_parking);
+        }
+
+        // Aggiungo l'elemento all'array filtrato solo se rispetta i filtri
+        if ($add_filter) {
+            $filtered_hotels[] = $hotel;
+        }
+    }
+}
 
 ?>
 
@@ -79,75 +116,75 @@ $hotel_filtered = [];
 
 <body>
 
-        <div class="text-center">
-            <h1 class="mt-5  text-danger">HOTELS</h1>
-        </div>
+    <div class="text-center">
+        <h1 class="mt-5  text-danger">HOTELS</h1>
+    </div>
 
-        <div class="container mt-5">
+    <div class="container mt-5">
 
-            <ul class="hotels-list text-center">
+        <ul class="hotels-list text-center">
 
-                <?php foreach ($hotels as $hotel) { ?>
+            <?php foreach ($hotels as $hotel) { ?>
 
-                    <li> <?php echo $hotel["name"] ?> </li>
-                    <li> <?php echo $hotel["description"] ?> </li>
-                    <li> <?php echo ($hotel["parking"] ? "Yes" : "No") ?> </li>
-                    <li> <?php echo $hotel["vote"] ?> </li>
-                    <li> <?php echo $hotel["distance_to_center"] ?> </li>
-                    <br>
+                <li> <?php echo $hotel["name"] ?> </li>
+                <li> <?php echo $hotel["description"] ?> </li>
+                <li> <?php echo ($hotel["parking"] ? "Yes" : "No") ?> </li>
+                <li> <?php echo $hotel["vote"] ?> </li>
+                <li> <?php echo $hotel["distance_to_center"] ?> </li>
+                <br>
 
-                <?php } ?>
+            <?php } ?>
 
-            </ul>
+        </ul>
 
 
-            <div class="container mt-3">
+        <div class="container mt-3">
 
-        <form action="index.php" method="GET">
-            <div class="row align-items-center">
+            <form action="index.php" method="GET">
+                <div class="row align-items-center">
 
-             <!-- Aggiungo un form, che tramite una richiesta GET permetta di filtrare gli hotel che hanno un parcheggio. -->
+                    <!-- Aggiungo un form, che tramite una richiesta GET permetta di filtrare gli hotel che hanno un parcheggio. -->
 
-                <div class="col-6 text-center">
+                    <div class="col-6 text-center">
 
-                    <label for="parking" class="mb-2 w-100">
-                        <h2>Parking</h2>
-                    </label>
+                        <label for="parking" class="mb-2 w-100">
+                            <h2>Parking</h2>
+                        </label>
 
-                    <select name="parking" class="form-select" id="parking">
-                        <option value="null" hidden></option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                        <select name="parking" class="form-select" id="parking">
+                            <option value="null" hidden></option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
 
+                    </div>
+
+                    <div class="col-6 text-center">
+
+                        <!-- Aggiungo un altro form che permetta di filtrare gli hotel per voto  -->
+
+                        <label for="vote" class="mb-2 w-100">
+                            <h2>Vote</h2>
+                        </label>
+
+                        <select name="vote" class="form-select" id="vote">
+                            <option value="null" hidden></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+                    </div>
                 </div>
 
-                <div class="col-6 text-center">
 
-                <!-- Aggiungo un altro form che permetta di filtrare gli hotel per voto  -->
-
-                    <label for="vote" class="mb-2 w-100">
-                        <h2>Vote</h2>
-                    </label>
-
-                    <select name="vote" class="form-select" id="vote" >
-                        <option value="null" hidden></option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-
+                <div class="container text-center">
+                    <button type="submit" name="submit" class="btn btn-outline-danger btn-lg mt-5">Filtra</button>
                 </div>
-            </div>
 
-
-            <div class="container-button text-center">
-                <button type="submit" name="submit" class="btn btn-danger mt-5">Filtra</button>
-            </div>
-            
-        </form>
+            </form>
 
         </div>
 
@@ -157,19 +194,20 @@ $hotel_filtered = [];
 
                 <thead>
 
+
                     <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Parking</th>
-                        <th scope="col">Vote</th>
-                        <th scope="col">Distance to center</th>
+                        <?php foreach ($column_names as $column_name) { ?>
+                            <th scope="col"><?php echo $column_name ?></th>
+                        <?php } ?>
                     </tr>
 
                 </thead>
 
-                <?php foreach ($hotels as $hotel) { ?>
+                <tbody>
 
-                    <tbody>
+                    <?php
+                    foreach ($filtered_hotels as $hotel) {
+                    ?>
 
                         <tr>
                             <th scope="row"> <?php echo $hotel["name"] ?></th>
@@ -179,16 +217,14 @@ $hotel_filtered = [];
                             <td> <?php echo $hotel["distance_to_center"] ?> </td>
                         </tr>
 
-                    </tbody>
+                </tbody>
 
-                <?php } ?>
+            <?php } ?>
 
             </table>
 
 
         </div>
-
-        <script src="js/main.js"></script>
 
 </body>
 
